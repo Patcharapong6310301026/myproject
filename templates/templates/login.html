@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Login Form</title>
+<script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js" defer></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js" defer></script>
+<script src="static/register.js" defer type="module"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/.15.3//css/font-awesome.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <nav>
+    <div class="navbar">
+      <div class="logo"><a href="#"><img src="/static/images/logo.png" alt=""></a></div>
+    </div>
+  </nav>
+
+    <div class="bg-container">
+    <div class="login-container">
+      <form action="{{ url_for("login_google")}}"  method="post">
+      <div class="login-form">
+          <h2>Sign in Please!</h2>
+          <div class="input-login">
+            <button id="google-login-btn">
+              <i class="fab fa-google fa-2x"></i> Login with Google
+            </button>
+          </div>
+        </form>
+            <div class="input-guest">
+              <a href="/TxtPage">guest</a>
+       
+      </div>
+    </div>
+  </div>
+</body>
+</html>
