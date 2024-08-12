@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Create Adverting</title>
+        <link rel="stylesheet" href="/static/styles.css">
+    </head>
+  <body>
+  <nav>
+    <div class="navbar">
+      <div class="logo"><a href="#"><img src="/static/images/logo.png" alt=""></a></div>
+          <ul class="menu">
+            <li><a id="userEmail"></a></li>
+            <li><a href="/" id="logout" onclick="logout()">Logout</a></li>
+          </ul>
+          <div id="loading-popup" class="loading-popup">
+          <div class="loading-spinner"></div>
+          <p>กำลังรันโมเดล...</p>
+      </div>
+  </nav>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+          <form action="/TestApi" id="form2" method="post">
+            <div class="dropdown-model">
+                <label for="model-type">Model</label>
+                <div class="dropdown-container">
+                      <select id="model-type" name="model-type">
+                          <option value="realisticVisionV60B1_v51VAE.safetensors [15012c538f]">realisticVisionV60B1_v51VAE.safetensors [15012c538f]
+                          </option>
+                      </select>
+                    
+                </div>
+            </div>
+            <div class="box-container">
+              <div class="text-area-container">
+                  <div class="text-area-prompt">
+                      <label for="english-prompt">English Prompt</label>
+                      <textarea id="english-prompt" name="english-prompt" rows="5" cols="33" placeholder=""></textarea>
+                  </div>
+              </div>
+            </div>
+          </form>
+          <div class="neprompt-dropdrown">
+            <div class="box-neprompt">
+              <button onclick="toggleDropdown()" class="neprompt-btn" id="neprompt-btn">Nagative Prompt &#9660;</button>
+              <div id="neprompt-content" class="neprompt-content">
+                <label class="checkbox-label">
+                  <input type="checkbox" value="bad anatomy"> ร่างกายไม่สมบูรณ์
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="bad hands"> มือไม่สมบูรณ์
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="three hands"> มี 3 มือ
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="bad arms"> แขนไม่สมบูรณ์
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="missing arms"> แขนหาย
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="poorly drawn face"> วาดหน้าไม่ดี
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="cloned face"> โคลนหน้า
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="worst face"> ใบหน้าไม่สวย
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="missing fingers"> นิ้วหาย
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="ugly fingers"> นิ้วไม่สมบูรณ์
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="worst quality"> คุณภาพแย่
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="low quality"> คุณภาพต่ำ
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="low res"> ความละเอียดต่ำ
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="watermark"> ลายน้ำ
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="blurry"> เบลอ
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="duplicate"> ซ้ำกัน
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="error"> ผิดพลาด
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="sketch"> ภาพร่าง
+                </label> 
+                <label class="checkbox-label">
+                  <input type="checkbox" value="black&white"> ขาวดำ
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="illustration"> ภาพประกอบ
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="horror"> สยองขวัญ
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="mutation"> กลายพันธุ์
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="nsfw"> ไม่ปลอดภัยสำหรับเปิดในที่ทำงาน
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="nude"> เปลือย
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="mix color"> ผสมสี
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="anime"> อนิเมะ
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="unreal"> ไม่สมจริง
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="logo"> โลโก้
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="username"> ชื่อ
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" value="signature"> ลายเซ็นต์
+                </label>
+              </div>
+              <textarea type="text" id="out-neprompt" name="out-neprompt" form="form2"></textarea>
+            </div>
+          </div>
+          <div class="mixbox-container">
+            <div class="box2-container">
+              <div class="dropdown-method-container">
+                <label for="method-type">Sampling method <i class="fa fa-question-circle" aria-hidden="true" onclick="showInfo('sampling-method-info')"> </i></label>
+                <select id="method-type" name="method-type" form="form2">
+                  <option value="DDIM">DDIM</option>
+                  <option value="PLMS">PLMS</option>
+                  <option value="UniPC">UniPC</option>
+                  <option value="Euler">Euler a</option>
+                  <option value="Euler a">Euler</option>
+                  <option value="LMS">LMS</option>
+                  <option value="Heun">Heun</option>
+                  <option value="DPM2">DPM2</option>
+                  <option value="DPM2 a">DPM2 a</option>
+                  <option value="Restart">Restart</option>
+                  <option value="DPM fast">DPM fast</option>
+                  <option value="DPM adaptive">DPM adaptive</option>
+                  <option value="LMS Karras">LMS Karras</option>
+                  <option value="DPM2 a Karras">DPM2 a Karras</option>
+                </select>
+              </div>
+              <div id="step-info" class="info-popup-step">
+                <p>ใช้ในการ de-noise ภาพ ถ้าเพิ่มค่านี้ให้เป็นตัวเลขสูงๆ ภาพจะมีรายละเอียดมากขึ้น (แนะนำ 20 -30) เพราะค่าเยอะจะใช้เวลาเจนภาพนาน</p>
+              </div>
+    
+              <div id="scale-info" class="info-popup-scale">
+                <p>เป็นพารามิเตอร์สำหรับเอามาตั้งให้ภาพที่เราจะเจน มีความใกล้เคียงกับ prompt มากที่สุด (แนะนำค่าน้อย)</p>
+              </div>
+    
+              <div class="slider-container">
+                <div class="slider-group">
+                  <label for="step-slider">Step <i class="fa fa-question-circle" aria-hidden="true" onclick="showInfo('step-info')"> </i></label>
+                  <input type="range" id="step-slider"  min="1" max="150" value="20" class="slider" >
+                  <input type="text" id="step-value" name="step-value" class="slider-value" value="20" form="form2">
+                </div>
+    
+                <div class="slider-group">
+                  <label for="cfg-slider">CFG Scale <i class="fa fa-question-circle" aria-hidden="true" onclick="showInfo('scale-info')"> </i> </label>
+                  <input type="range" id="cfg-slider" min="1" max="30" value="7" class="7">
+                  <input type="text" id="cfg-value" name="cfg-value" class="slider-value" value="7" form="form2">
+                </div>
+              </div>
+              
+            <div class="dropdownsize-container"> 
+              <div class="size-group">
+              <label for="height-dropdown">Height</label>
+              <select id="height-dropdown" name="height" form="form2">
+                <option value="512">512</option>
+              </select>
+              <label for="width-dropdown">Width</label>
+              <select id="width-dropdown" name="width" form="form2">
+                <option value="512">512</option>
+              </select>
+              </div>
+            </div>
+            <div id="seed-info" class="info-popup-seed">
+              <p>เป็นตัวเลขในการกำหนดค่า random ของ noise ในการสร้างภาพ
+                <br>ถ้าต้องการให้ random seed ทุกครั้งที่สร้างภาพ ให้ใส่ค่า -1</p>
+            </div>
+            <div class="seed-container">
+              <label for="seed">Seed <i class="fa fa-question-circle" aria-hidden="true" onclick="showInfo('seed-info')"></i></label>
+              <input value='5' type="number" id="seed" name="seed" placeholder="Enter seed..." min="-1" step="1" form="form2">
+            </div>
+          <div class='input-image'>
+            <form action = "/UploadImage" method = "POST" 
+            enctype = "multipart/form-data">
+              <input type = "file" name = "file" />
+
+              <input type = "submit"/>
+            </form> 
+          </div>
+       </div>
+      <div class="col">
+          <div class="image-container">    
+            <img id="result-image" src="" alt="Mike" >
+            <button id="download-btn" onclick="downloadImage()"><i class="fa fa-download" aria-hidden="true"></i></button>
+          </div>
+          <button id="generate-btn" onclick="callImg2ImgAPI()" >Generate</button>
+          <div class="image-container">    
+            <img id="result-image" src="" alt="Mike" >
+            <button id="download-btn" onclick="downloadImage()"><i class="fa fa-download" aria-hidden="true"></i></button>
+          </div>
+       </div>
+    </div>
+  </div>
+  
+<script>
+  function toggleDropdown() {
+    var dropdownContent = document.getElementById("neprompt-content");
+    dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
+  }
+  function downloadImage() {
+    var resultImage = document.getElementById('result-image');
+    var downloadLink = document.createElement('a');
+    downloadLink.href = resultImage.src;
+    downloadLink.download = 'generated_image.png';
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  }
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  
+  function callImg2ImgAPI() {
+    // แสดง popup ก่อนทำการเรียก API
+    document.getElementById('loading-popup').style.display = 'block';
+  
+
+  
+    // Get values from HTML elements
+    const prompt = document.getElementById('english-prompt').value;
+    const negativePrompt = document.getElementById('neprompt-content').value;
+    const samplerName = document.getElementById('method-type').value;
+  
+    const steps = parseInt(document.getElementById('step-value').value);
+    const cfgScale = parseInt(document.getElementById('cfg-value').value);
+    const height = parseInt(document.getElementById('height-dropdown').value);
+    const width = parseInt(document.getElementById('width-dropdown').value);
+    const seed = parseInt(document.getElementById('seed').value);
+    const apiUrl = 'http://localhost:7860/sdapi/v1/txt2img';
+
+    const requestData = {
+      prompt: prompt,
+      negative_prompt: negativePrompt,
+      sampler_name: samplerName,
+      steps: steps,
+      cfg_scale: cfgScale,
+      height: height,
+      width: width,
+      seed: seed,
+    
+    };
+  
+    try {
+      $.ajax({
+          url: '/TestApi',
+          type: 'POST',
+          data : {
+            prompt: prompt,
+            negative_prompt: negativePrompt,
+            sampler_name: samplerName,
+            steps: steps,
+            cfg_scale: cfgScale,
+            height: height,
+            width: width,
+            seed: seed,
+          },
+          success: function(response){
+          
+          },
+          error: function(error){
+            console.log(error);
+          }
+      });
+  
+      // ปุ่มดาวน์โหลด
+      document.getElementById('download-btn').removeAttribute('disabled');
+  
+      
+    sleep(100);
+    } finally {
+      // ซ่อน popup เมื่อ API เสร็จสิ้น
+      document.getElementById('loading-popup').style.display = 'none';
+    }
+  }
+  
+  
+  function updateResult() {
+    var checkboxes = document.querySelectorAll('#neprompt-content input[type="checkbox"]:checked');
+    var resultInput = document.getElementById("out-neprompt");
+    var selectedItems = Array.from(checkboxes).map(checkbox => checkbox.value).join(', ');
+    resultInput.value = selectedItems;
+  }
+
+  document.addEventListener('click', function(event) {
+    var dropdownBtn = document.getElementById('neprompt-btn');
+    var dropdownContent = document.getElementById('neprompt-content');
+    var resultInput = document.getElementById('out-neprompt');
+
+    if (!dropdownBtn.contains(event.target) && !dropdownContent.contains(event.target) && event.target !== resultInput) {
+      dropdownContent.style.display = 'none';
+    }
+  });
+
+  document.querySelectorAll('#neprompt-content input[type="checkbox"]').forEach(function(checkbox) {
+    checkbox.addEventListener('change', updateResult);
+  });
+
+</script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+  </body>
+
+</html>
